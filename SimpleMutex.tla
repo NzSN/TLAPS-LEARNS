@@ -54,7 +54,7 @@ Inv == /\ TypeOK
         /\ (pc[i] = "cs") => (flag[1-i] = FALSE) \/ (pc[1-i] = "s2")
 
 THEOREM Spec => []Mutex
-<1>1. Init => Inv
+<1>0. Init => Inv
   <2>0. SUFFICES ASSUME Init
                  PROVE  Inv
     OBVIOUS
@@ -63,9 +63,16 @@ THEOREM Spec => []Mutex
   <2>2. \A i \in {0,1} : 
         /\ (flag[i] = TRUE) <=> (pc[i] \in {"s2", "cs", "s3"})
         /\ (pc[i] = "cs") => (flag[1-i] = FALSE) \/ (pc[1-i] = "s2")
-    BY DEF Init, Inv, TypeOK
+    <3>0 SUFFICES ASSUME NEW i \in {0,1}
+                  PROVE  /\ (flag[i] = TRUE) <=> (pc[i] \in {"s2", "cs", "s3"})
+                         /\ (pc[i] = "cs") => (flag[1-i] = FALSE) \/ (pc[1-i] = "s2")
+        OBVIOUS
+        <3>1. 
+        
   <2>3. QED
     BY <2>1, <2>2 DEF Inv
+<1>1. Inv /\ [Next]_vars => Inv'
+<1>2. QED
 \* END TRANSLATION 
 
 ===================================================================
